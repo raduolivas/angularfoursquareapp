@@ -1,0 +1,27 @@
+<!-- Header -->
+<mat-toolbar color="primary">
+    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+
+    <img id="header-logo" src='' alt="" class="logo">
+    <span class="text-logo" id="nav-logo" (click)="redirectToHome()"></span>
+    <span class="title" [innerHTML]='title'></span>
+</mat-toolbar>
+  
+<mat-sidenav-container fullscreen>
+    <mat-sidenav #sidenav class="sidenav" fixedInViewport="false" [autoFocus]="false">
+        <mat-nav-list>
+            <ng-container *ngFor="let item of navigationItens">
+                <a mat-list-item color="primary" (click)="sidenav.toggle()" routerLinkActive="list-item-active"
+                    [routerLinkActiveOptions]="{ exact:true }" [routerLink]="[item.route]">
+                    <mat-icon matListIcon class="material-icons-outlined">{{item.icon}}</mat-icon>
+                    {{item.title}}
+                </a>
+            </ng-container>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

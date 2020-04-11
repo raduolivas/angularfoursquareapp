@@ -1,0 +1,23 @@
+.search {    
+    margin-top: 25px;
+
+    &__top-title {
+      padding: 5px 0 20px 15px;
+      margin: 0;
+      font-size: 20px;
+      line-height: 23px;
+      // color: map-get($mat-grey, 700);
+    }
+
+    &__title {
+      margin: 20px 0 10px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 16px;
+      // color: map-get($mat-grey, 500);
+    }
+
+    &__card {
+      min-height: 561px;
+    }
+}
