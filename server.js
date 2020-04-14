@@ -14,4 +14,5 @@ app.get('/*', (req, res) => {
 
 
 // Start the app by listening on the default Heroku port
+console.log('CLIENT ID:::: ', process.env.CLIENT_ID);
 app.listen(process.env.PORT || 4200);
