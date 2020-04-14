@@ -1,0 +1,6 @@
+<div class="venue-list">
+    <div *ngIf="venues?.length > 0;" class="venue-list__list">
+      <app-venue-card *ngFor="let venue of venues" [venue]="venue">
+      </app-venue-card>
+    </div> 
+</div>
