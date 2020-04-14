@@ -1,3 +1,44 @@
-<div fxLayout="row" fxFill fxLayoutAlign="center" class='search'>
-
+<div fxLayout="row" fxFill fxLayoutAlign="center center" class='search'>
+    <div class="search__container">
+        <h1>Tell us what are you looking for.</h1>
+        <form [formGroup]="searchData" (ngSubmit)="searchData.valid && onSubmit()" fxLayoutGap="2" class="search__form">
+            <mat-form-field class="search__form-field-section">
+                <mat-label>Section</mat-label>
+                <input matInput class="search__input-title" 
+                        id="section"
+                        formControlName="section" 
+                        placeholder="What are you seeking for?" 
+                        [matAutocomplete]="section" >
+                <mat-error>
+                    Chose what you looking for!
+                </mat-error>
+                <mat-progress-bar mode="indeterminate" *ngIf="isSearchingSection" class="search__input-loading">
+                </mat-progress-bar>
+                <mat-autocomplete #section="matAutocomplete">
+                    <mat-option *ngFor="let section of sections" [value]="section.name">
+                        <span>{{section.name}}</span>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="search__form-field-radius">
+                <mat-label>Radius in meters</mat-label>
+                <input matInput class="search__input-title" 
+                        id="radius"
+                        formControlName="radius" 
+                        type="number">
+            </mat-form-field>
+            <div class="search__slider">
+                <mat-slider (input)="searchData.controls.radius.setValue($event.value)" 
+                            min="100" max="1000"
+                            tickInterval="1000">
+                </mat-slider>
+            </div>
+            <div class="search__button-container">
+                <button mat-raised-button class="search__find-button">Find</button>
+                <button mat-flat-button [color]="locationButtonColor" 
+                        class="search__location-button"
+                        (click)="getGeolocation()"><mat-icon> location_on</mat-icon></button>
+            </div>
+        </form>
+    </div>
 </div>

@@ -1,4 +1,5 @@
 <app-navigation>
-    <app-search></app-search>
+    <app-search (venues)="receiveVenues($event)"></app-search>
+    <app-venue-list></app-venue-list>
     <router-outlet></router-outlet>
 </app-navigation>
