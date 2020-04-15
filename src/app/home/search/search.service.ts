@@ -9,8 +9,6 @@ import { Observable } from 'rxjs';
 import {
     SEARCH_CLIENT_ID,
     SEARCH_CLIENT_SECRET,
-    SEARCH_API_URL_NEXT_VENUE,
-    SEARCH_API_URL,
     SEARCH_API_V,
     SEARCH_API_VENUES
 } from './search.constants';

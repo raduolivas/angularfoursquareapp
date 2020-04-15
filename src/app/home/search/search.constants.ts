@@ -14,8 +14,6 @@ export const SEARCH_API_URL = `${environment.api.URL}`;
 export const SEARCH_CLIENT_ID = `${environment.api.CLIENTID}`;
 export const SEARCH_CLIENT_SECRET = `${environment.api.CLIENTSECRET}`;
 export const SEARCH_API_V = `${environment.api.API_V}`;
-export const SEARCH_API_URL_NEXT_VENUE =
-`${environment.api}/${environment.api.VENUE_ID}/${environment.api.NEXT_VENUES}`;
 export const SEARCH_API_VENUES = `${SEARCH_API_URL}search`;
 
 export const SEARCH_SECTIONS = [
