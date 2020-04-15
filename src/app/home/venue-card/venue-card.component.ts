@@ -8,6 +8,7 @@ import { Venue } from 'src/app/shared/venue/search.model';
 })
 export class VenueCardComponent implements OnInit {
   @Input() public venue: Venue;
+  public thumbnail: string;
 
   constructor() { }
 

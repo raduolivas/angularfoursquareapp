@@ -1,12 +1,11 @@
 export interface VenuesResponse {
-    id: string;
-    name: string;
-    location: Location;
-    categories: Categories;
-    venuePage: VenuePage;
-    referralId: string;
-    hasPerk: boolean;
+    meta: Meta;
+    response: Venue;
+}
 
+export interface Meta {
+    code: number;
+    requestId: string;
 }
 
 export interface Location {
@@ -55,4 +54,5 @@ export interface Venue {
     categories: Categories;
     referralId: string;
     hasPerk: boolean;
+    venues: [];
 }

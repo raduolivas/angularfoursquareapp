@@ -11,12 +11,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { VenueCardComponent } from './venue-card/venue-card.component';
 import { VenueListComponent } from './venue-list/venue-list.component';
 
@@ -39,9 +39,9 @@ import { VenueListComponent } from './venue-list/venue-list.component';
     MatDividerModule,
     MatIconModule,
     MatInputModule,
+    MatTooltipModule,
     MatOptionModule,
     MatSliderModule,
-    MatProgressBarModule,
     MatSnackBarModule,
     MatCardModule
   ]

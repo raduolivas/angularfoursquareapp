@@ -11,7 +11,8 @@ import {
     SEARCH_CLIENT_SECRET,
     SEARCH_API_URL_NEXT_VENUE,
     SEARCH_API_URL,
-    SEARCH_API_V
+    SEARCH_API_V,
+    SEARCH_API_VENUES
 } from './search.constants';
 
 @Injectable({
@@ -20,18 +21,18 @@ import {
 export class SearchService {
     constructor( private readonly httpClient: HttpClient ) { }
 
-    // public findLocations(params): Observable<VenuesResponse>{
-    //     const httpParams: HttpParams = this.setCredentialParams();
-    //     return this.httpClient.get<VenuesResponse>(SEARCH_API_URL_NEXT_VENUE,
-    //         {params: httpParams});
-    // }
-
     public findVenues(params): Observable<VenuesResponse>{
-        const httpParams: HttpParams = this.setCredentialParams()
+        let httpParams: HttpParams = this.setCredentialParams()
             .set('v', SEARCH_API_V)
             .set('ll', params.ll)
-            .set('intent', 'checkin');
-        return this.httpClient.get<VenuesResponse>(SEARCH_API_URL,
+            .set('query', params.query)
+            .set('intent', params.intent);
+
+        if (params.radius > 0) {
+            httpParams = httpParams.set('radius', params.radius);
+        }
+
+        return this.httpClient.get<VenuesResponse>(SEARCH_API_VENUES,
             {params: httpParams});
     }
 

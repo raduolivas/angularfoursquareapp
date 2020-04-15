@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { VenueListComponent } from './venue-list/venue-list.component';
-import { Venue } from '../shared/venue/search.model';
 
 @Component({
   selector: 'app-home',
@@ -17,13 +16,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public receiveVenues(event: any): void {
-    const methodName = event.method;
+  public receiveVenues(event): void {
+    const methodName = event.siblingComponentMethod;
     if (this.venueListComponent &&
         this.venueListComponent[methodName]) {
       if (event.hasOwnProperty('venues')) {
         const venues = event.venues;
-        this.venueListComponent[methodName](venues);
+        this.venueListComponent[methodName](venues.venues);
       } else {
         this.venueListComponent[methodName]();
       }

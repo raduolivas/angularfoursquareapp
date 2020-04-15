@@ -1,12 +1,12 @@
 <mat-card class="card fadeIn">
     <div class="card__header">
-        <img [src]="(venue.categories[0].icon.prefix + venue.categories[0].icon.suffix) || 'assets/img/no-image.png'">
+        <img src="assets/img/no-image.png">
         <mat-card-title class="card__header-title">{{ venue.name }}</mat-card-title>
     </div>
-    <mat-card-content class="card__card-content"> 
+    <mat-card-content> 
         <div><mat-icon>location_on</mat-icon> {{ venue.location.city }}</div>
         <div><mat-icon>local_convenience_store </mat-icon> {{ venue.location.address }}</div>
         <div><mat-icon>directions_walk</mat-icon> Distance: {{ venue.location.distance }}</div>
-        <div><mat-icon>fastfood</mat-icon> Category: {{ venue.categories[0].shortName }}</div>
+        <div><mat-icon>fastfood</mat-icon> {{ venue.categories[0]?.shortName || '' }}</div>
     </mat-card-content>
 </mat-card>

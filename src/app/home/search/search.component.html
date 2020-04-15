@@ -12,8 +12,6 @@
                 <mat-error>
                     Chose what you looking for!
                 </mat-error>
-                <mat-progress-bar mode="indeterminate" *ngIf="isSearchingSection" class="search__input-loading">
-                </mat-progress-bar>
                 <mat-autocomplete #section="matAutocomplete">
                     <mat-option *ngFor="let section of sections" [value]="section.name">
                         <span>{{section.name}}</span>
@@ -29,8 +27,11 @@
             </mat-form-field>
             <div class="search__slider">
                 <mat-slider (input)="searchData.controls.radius.setValue($event.value)" 
-                            min="100" max="1000"
-                            tickInterval="1000">
+                            min="0" max="2000"
+                            tickInterval="1000"
+                            (change)="findVenues()"
+                            matTooltip="Set to zero to remove radius specification"
+                            [matTooltipPosition]="'above'">
                 </mat-slider>
             </div>
             <div class="search__button-container">

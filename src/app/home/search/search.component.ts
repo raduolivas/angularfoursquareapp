@@ -11,11 +11,12 @@ import {
   SEARCH_GEOLOCATION_DEBOUNCE,
   SEARCH_GEOLOCATION_ERROR_ACTION,
   SEARCH_GEOLOCATION_ERROR,
-  VENUES_MOCK
+  VENUES_MOCK,
+  SEARCH_GEOLOCATION_NO_RESULTS
 } from './search.constants';
-import { Section, VenuesResponse, Venue } from '../../shared/venue/search.model';
+import { Section, VenuesResponse } from '../../shared/venue/search.model';
 import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { catchError, map} from 'rxjs/operators';
 import { SearchService } from './search.service';
 import { GeolocationService } from 'src/app/shared/geolocation/geolocation.service';
 
@@ -25,12 +26,14 @@ import { GeolocationService } from 'src/app/shared/geolocation/geolocation.servi
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+
+  /**
+   * Output data for Sibling component comunication
+   */
   @Output()
   public venues: EventEmitter<object> = new EventEmitter<object>();
 
   public searchData: FormGroup;
-  public isSearchingSection: boolean = false;
-  public isSearchingLocation: boolean = false;
   public geoLocation: boolean = false;
   public locationButtonColor: string = 'accent';
 
@@ -50,7 +53,6 @@ export class SearchComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formSetup();
-    this.onSubmit();
   }
 
   public formSetup(): void {
@@ -61,13 +63,16 @@ export class SearchComponent implements OnInit {
           Validators.minLength(SEARCH_NAME_MIN_LENGTH),
           Validators.maxLength(SEARCH_NAME_MAX_LENGTH)
         ]],
-        radius: ['', []]
+        radius: ['', []],
+        ll: ['', []]
     });
   }
 
   public getGeolocation(): void {
     this.geolocation.getLocation().subscribe(res => {
-      console.log(res);
+      const lat = res.coords.latitude || '';
+      const long = res.coords.longitude || '';
+      this.searchData.controls.ll.setValue(`${lat.toFixed(4)},${long.toFixed(4)}`);
       if (res) {
         this.geoLocation = true;
         this.locationButtonColor = 'warn';
@@ -80,13 +85,21 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  public locationIputChangekup(ll: string): Observable<VenuesResponse> {
-    this.isSearchingLocation = true;
-    return this.venueService.findVenues(ll).pipe(
-      map((response: VenuesResponse) => {
-        this.isSearchingLocation = false;
+  public findVenues(): Observable<VenuesResponse> {
+    if (!this.searchData.controls.section.value) {
+      return;
+    }
 
-        return response;
+    const payload = this.createPayload();
+    return this.venueService.findVenues(payload).pipe(
+      map((response: VenuesResponse) => {
+        if (!response.response.venues.length) {
+          this.snackBar.open(
+            SEARCH_GEOLOCATION_NO_RESULTS,
+            SEARCH_GEOLOCATION_ACTION,
+          { duration: SEARCH_GEOLOCATION_DEBOUNCE });
+        }
+        return response || [];
       }),
       catchError(() => {
         return of(null);
@@ -95,17 +108,29 @@ export class SearchComponent implements OnInit {
   }
 
   public onSubmit(findAnyWay: boolean = false): void {
-    // if (!this.geoLocation && !findAnyWay) {
-    //   this.snackError(SEARCH_GEOLOCATION_ERROR, SEARCH_GEOLOCATION_ERROR_ACTION);
-    //   return;
-    // }
-    this.venues.emit({method: 'loadVenues', venues: VENUES_MOCK});
+    if (!this.geoLocation && !findAnyWay) {
+      this.snackError(SEARCH_GEOLOCATION_ERROR, SEARCH_GEOLOCATION_ERROR_ACTION);
+      return;
+    }
+    this.findVenues().subscribe(res => {
+      const loadedVenues = res ? res.response : [];
+      this.venues.emit({siblingComponentMethod: 'loadVenues', venues: loadedVenues});
+    });
   }
 
   public locationIputChange(location): void {
     if (location.length >= 3) {
       console.log(location);
     }
+  }
+
+  private createPayload(): object {
+    return {
+      ll: this.searchData.controls.ll.value,
+      intent: 'checkin',
+      radius: this.searchData.controls.radius.value,
+      query: this.searchData.controls.section.value
+    };
   }
 
   private snackError(message: string, action: string): void {
