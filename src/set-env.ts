@@ -6,11 +6,17 @@ const targetPath = './src/environments/environment.prod.ts';
 
 // Load node modules
 const colors = require('colors');
-
+const target = process.env.PORT || 4200;
 // `environment.ts` file structure
 const envConfigFile = `
 export const environment = {
     production: true,
+    env_url: '${process.env.env_url}',
+    token_url: 'https://foursquaretoken.herokuapp.com/token',
+    auth: {
+        DOMAIN: '${process.env.DOMAIN}',
+        CLIENT_ID: '${process.env.CLIENT_ID}'
+    },
     api: {
         URL: 'https://api.foursquare.com/v2/venues/',
         API_V: '20190425',

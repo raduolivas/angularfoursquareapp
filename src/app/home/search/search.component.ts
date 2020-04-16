@@ -19,6 +19,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map} from 'rxjs/operators';
 import { SearchService } from './search.service';
 import { GeolocationService } from 'src/app/shared/geolocation/geolocation.service';
+import { AuthService } from 'src/app/core/security/auth.service';
+import { AuthorizationService } from 'src/app/core/security/authorization.service';
 
 @Component({
   selector: 'app-search',
@@ -47,11 +49,18 @@ export class SearchComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly venueService: SearchService,
     private readonly geolocation: GeolocationService,
-    private readonly snackBar: MatSnackBar) {
+    private readonly snackBar: MatSnackBar,
+    private readonly auth0: AuthService,
+    private readonly authorizationService: AuthorizationService) {
 
   }
 
   public ngOnInit(): void {
+
+    if (!this.authorizationService.isAuthorized()) {
+      this.authorizationService.authorize();
+    }
+
     this.formSetup();
   }
 
@@ -108,10 +117,20 @@ export class SearchComponent implements OnInit {
   }
 
   public onSubmit(findAnyWay: boolean = false): void {
+
+    // if (!this.auth0.loggedIn) {
+    //   this.auth0.login();
+    //   return;
+    // }
+    // if (!this.authorizationService.isAuthorized) {
+    //   this.authorizationService.redirectToAuthorization();
+    // }
+
     if (!this.geoLocation && !findAnyWay) {
       this.snackError(SEARCH_GEOLOCATION_ERROR, SEARCH_GEOLOCATION_ERROR_ACTION);
       return;
     }
+
     this.findVenues().subscribe(res => {
       const loadedVenues = res ? res.response : [];
       this.venues.emit({siblingComponentMethod: 'loadVenues', venues: loadedVenues});

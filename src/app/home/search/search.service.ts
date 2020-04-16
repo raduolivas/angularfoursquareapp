@@ -20,7 +20,8 @@ export class SearchService {
     constructor( private readonly httpClient: HttpClient ) { }
 
     public findVenues(params): Observable<VenuesResponse>{
-        let httpParams: HttpParams = this.setCredentialParams()
+        let httpParams: HttpParams = new HttpParams()
+            .set('oauth_token', localStorage.getItem('foursquare_token'))
             .set('v', SEARCH_API_V)
             .set('ll', params.ll)
             .set('query', params.query)

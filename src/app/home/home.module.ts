@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
@@ -31,7 +30,6 @@ import { VenueListComponent } from './venue-list/venue-list.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule,
     HomeRoutingModule,
     NavigationModule,
     MatButtonModule,
