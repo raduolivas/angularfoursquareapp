@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { VenueListComponent } from './venue-list/venue-list.component';
 
@@ -7,14 +7,11 @@ import { VenueListComponent } from './venue-list/venue-list.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   @ViewChild(VenueListComponent)
   private venueListComponent: VenueListComponent;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   public receiveVenues(event): void {
     const methodName = event.siblingComponentMethod;

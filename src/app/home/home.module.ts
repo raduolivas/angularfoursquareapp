@@ -19,7 +19,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { VenueCardComponent } from './venue-card/venue-card.component';
 import { VenueListComponent } from './venue-list/venue-list.component';
 
-
 @NgModule({
   declarations: [
     HomeComponent,

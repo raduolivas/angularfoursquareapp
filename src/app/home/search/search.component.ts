@@ -9,9 +9,7 @@ import {
   SEARCH_GEOLOCATION_MESSAGE,
   SEARCH_GEOLOCATION_ACTION,
   SEARCH_GEOLOCATION_DEBOUNCE,
-  SEARCH_GEOLOCATION_ERROR_ACTION,
   SEARCH_GEOLOCATION_ERROR,
-  VENUES_MOCK,
   SEARCH_GEOLOCATION_NO_RESULTS
 } from './search.constants';
 import { Section, VenuesResponse } from '../../shared/venue/search.model';
@@ -58,7 +56,7 @@ export class SearchComponent implements OnInit {
   public ngOnInit(): void {
 
     if (!this.authorizationService.isAuthorized()) {
-      this.authorizationService.authorize();
+     this.authorizationService.authorize();
     }
 
     this.formSetup();
@@ -116,18 +114,22 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  public onSubmit(findAnyWay: boolean = false): void {
+  public onSubmit(): void {
+
+    /**
+     * The Auth0 was implemented but it`s not needed in
+     * the way foursquare authentication works.
+     * For that reason i decide to not enamble Auth0
+     * parallel user authentication. But that is working.
+     */
 
     // if (!this.auth0.loggedIn) {
     //   this.auth0.login();
     //   return;
     // }
-    // if (!this.authorizationService.isAuthorized) {
-    //   this.authorizationService.redirectToAuthorization();
-    // }
 
-    if (!this.geoLocation && !findAnyWay) {
-      this.snackError(SEARCH_GEOLOCATION_ERROR, SEARCH_GEOLOCATION_ERROR_ACTION);
+    if (!this.geoLocation) {
+      this.snackError(SEARCH_GEOLOCATION_ERROR);
       return;
     }
 
@@ -135,12 +137,6 @@ export class SearchComponent implements OnInit {
       const loadedVenues = res ? res.response : [];
       this.venues.emit({siblingComponentMethod: 'loadVenues', venues: loadedVenues});
     });
-  }
-
-  public locationIputChange(location): void {
-    if (location.length >= 3) {
-      console.log(location);
-    }
   }
 
   private createPayload(): object {
@@ -152,12 +148,14 @@ export class SearchComponent implements OnInit {
     };
   }
 
-  private snackError(message: string, action: string): void {
-   const snackBarkRef = this.snackBar.open(message, action,
+  /**
+   *
+   * @param message message coming from search actions
+   *
+   */
+  private snackError(message: string): void {
+   this.snackBar.open(message, 'ok',
       { duration: SEARCH_GEOLOCATION_DEBOUNCE }
     );
-   snackBarkRef.onAction().subscribe(() => {
-      this.onSubmit(true);
-    });
   }
 }

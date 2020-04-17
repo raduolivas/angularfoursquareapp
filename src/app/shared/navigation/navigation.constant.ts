@@ -6,5 +6,10 @@ export const NAVIGATION_ITENS: NavigationItem[] = [
     title: 'Home',
     icon: 'home',
     route: '/',
-  }
+  },
+  // {
+  //   title: 'Profile',
+  //   icon: 'account_box',
+  //   route: '/profile',
+  // }
 ];
